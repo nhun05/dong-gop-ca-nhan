@@ -1,99 +1,56 @@
-# BKDocs - Website Chia sẻ Bài viết
+# studyforum
+A study forum website using Node.js, ExpressJS, EJS and MySQL created as final project for the subject "Web Design and Programming" at Hanoi University of Science and Technology.
 
-Website cho phép người dùng đăng ký tài khoản, đăng nhập, đăng bài viết kèm file đính kèm, chỉnh sửa, xoá, bình luận, đánh giá và tìm kiếm bài viết.
+## Group's members: Group 8
+| STT | Họ tên                 |    MSSV    | Chức năng đảm nhận                                                        |
+| --- | -----------------------|------------|---------------------------------------------------------------------------|
+|  1  | Lưu Quỳnh Anh          | 20221830   | Bình luận bài viết, Tải lại bài cùng bình luận, Đánh giá bài viết (hữu ích, không hữu ích), Tải bài viết |
+|  2  | Vũ Ngọc Ánh            | 20221836   | Đăng ký, đăng nhập, Đăng bài viết, upload file đính kèm, Xem bài viết, Xóa và chỉnh sửa bài viết, Tìm kiếm|
+|  3  | Tống Thị Hồng Nhung    | 20221863   | Bình luận bài viết, Tải lại bài cùng bình luận, Đánh giá bài viết (hữu ích, không hữu ích), Tải bài viết|
+|  4  | Vũ Hồng Nhung          | 20221864   | Đăng ký, đăng nhập, Đăng bài viết, upload file đính kèm, Xem bài viết, Xóa và chỉnh sửa bài viết, Tìm kiếm, Bình luận bài viết, Tải lại bài cùng bình luận |
 
-##  Công nghệ sử dụng
+## Installation
+Make sure you have Node.js installed on your computer. If not, you can download it [here](https://nodejs.org/en/download/)
 
-- **Frontend:** HTML, CSS, JavaScript
-- **Backend:** Node.js + Express
-- **Cơ sở dữ liệu:** MySQL
-- **Xác thực:** JSON Web Token (JWT)
-- **Quản lý phiên:** localStorage
+Download this repository
 
----
-
-##  Cài đặt
-
-1. Cài Node.js từ: https://nodejs.org/
-2. Cài đặt MySQL server (nếu chưa có).
-3. Tạo cơ sở dữ liệu MySQL và tài khoản người dùng:
-```sql
-CREATE DATABASE project CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-CREATE USER IF NOT EXISTS 'bkuser'@'localhost' IDENTIFIED BY 'yourpassword';
-GRANT ALL PRIVILEGES ON project.* TO 'bkuser'@'localhost';
-FLUSH PRIVILEGES;
-
-4. Cài đặt các thư viện Node:
-```bash
+Install the dependencies
+```
 npm install
 ```
-5. Chạy server:
-```bash
-node server js
+
+Install mysql server and start it (This instruction is for Ubuntu, for other OS, please refer to the official documentation of MySQL)
+
+` sudo apt update `
+
+` sudo apt install mysql-server `
+
+` sudo service mysql start `
+
+Execute these queries in MySQL
+```
+CREATE USER 'root'@'localhost' IDENTIFIED BY '@Nhungvu123';
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'localhost';
+CREATE DATABASE web;
+USE web;
 ```
 
----
+Now run the file `project.sql` in MySQL
 
-## Chức năng đã thực hiện
+```mysql -u root -p web < project.sql```
 
-### 1. Đăng ký tài khoản
 
-- **Frontend:** `Dangky.html` gửi form đăng ký với tên, email, mật khẩu, ngày sinh.
-- **Backend:** `/auth/register` kiểm tra email, mã hoá mật khẩu bằng `bcrypt`, lưu người dùng mới.
-- **CSDL:** bảng `nguoidung`.
+## Compiles and hot-reloads for development
+```
+npm run dev
+``` 
 
-### 2. Đăng nhập
+## Completion Level (self-assessment, based on our Professor's requirements)
 
-- **Frontend:** `Dangnhap.html` gửi email + mật khẩu.
-- **Backend:** `/auth/login` kiểm tra thông tin và trả về token JWT.
-- **CSDL:** bảng `nguoidung`.
-
-### 3. Đăng bài viết
-
-- **Frontend:** `Baiviet.html` có form nhập nội dung + chọn file, gửi đến `/posts`.
-- **Backend:** `/posts` xử lý nội dung và file đính kèm, lưu bài viết.
-- **CSDL:** bảng `baiviet`, `tailieu`.
-
-### 4. Chỉnh sửa bài viết
-
-- **Frontend:** Nút “Chỉnh sửa” hiển thị nếu người dùng là tác giả.
-- **Backend:** `PUT /posts/:id` cập nhật nội dung bài viết nếu đúng người tạo.
-- **CSDL:** bảng `baiviet`.
-
-### 5. Xoá bài viết
-
-- **Frontend:** Nút “Xoá” chỉ hiện với người tạo.
-- **Backend:** `DELETE /posts/:id` xác minh quyền trước khi xoá.
-- **CSDL:** bảng `baiviet`.
-
-### 6. Tìm kiếm bài viết
-
-- **Frontend:** `Search.html`, nhập từ khoá và gửi tới `/posts/search`.
-- **Backend:** Truy vấn `LIKE` theo `tieu_de` hoặc `noi_dung`.
-- **CSDL:** bảng `baiviet`.
-
----
-
-##  Đánh giá hoàn thành
-
-| STT | Chức năng | Tình trạng |
-|-----|-----------|------------|
-| 1 | Đăng ký | Hoàn thành |
-| 2 | Đăng nhập |Hoàn thành  |
-| 3 | Đăng bài | Hoàn thành |
-| 4 | Sửa bài viết | Hoàn thành |
-| 5 | Xoá bài viết | Hoàn thành |
-| 6 | Tìm kiếm bài viết | Hoàn thành |
-| 7 | Đánh giá bài viết | Hoàn thành |
-| 8 | Bình luận bài viết | Hoàn thành |
-| 9 | Giao diện responsive cơ bản | Hoàn thành |
-
----
-
-## Tác giả
-
-- **Nhóm:** [N8]
-- **Lớp:** [TK Web AC2070]
-- **Trường:** Đại học Bách Khoa Hà Nội
-
----
+| STT | Yêu cầu                                                       | Điểm | Tự đánh giá     |
+| --- | --------------------------------------------------------------|------| --------------- |
+| 1   | Giao diện người dùng có thể tương tác                         |1     | Hoàn thành      |
+| 2   | Server xử lý đúng logic và kết nối thành công với frontend.   |1     | Hoàn thành      |
+| 3   | Frontend ↔ Backend ↔ Database hoạt động trơn tru.             |1     | Hoàn thành      |
+| 4   | Ít lỗi, có từ 2+ chức năng chính và có thể sử dụng.           |1     | Hoàn thành      |
+| 5   | Thực hiện được các thao tác: tạo, đọc, cập nhật, xóa dữ liệu  |1     | Hoàn thành      |
