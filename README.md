@@ -54,3 +54,7 @@ npm run dev
 | 3   | Frontend ↔ Backend ↔ Database hoạt động trơn tru.             |1     | Hoàn thành      |
 | 4   | Ít lỗi, có từ 2+ chức năng chính và có thể sử dụng.           |1     | Hoàn thành      |
 | 5   | Thực hiện được các thao tác: tạo, đọc, cập nhật, xóa dữ liệu  |1     | Hoàn thành      |
+<<<<<<< HEAD
+=======
+
+>>>>>>> ff8ba4d (Update README.md with additional changes)
