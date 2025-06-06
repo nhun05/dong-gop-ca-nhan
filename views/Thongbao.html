@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Thông báo</title>
+  <style>
+    * { box-sizing: border-box; font-family: Arial, sans-serif; }
+    body { margin: 0; padding: 0; background: #f0f2f5; }
+
+    .navbar {
+      font-family: "Poppins", sans-serif;
+      background-color: #0a1f63;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 40px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: bold;
+      color: white;
+    }
+
+    .logo span {
+      color: #c7ddf4;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 24px;
+    }
+
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      padding: 8px 14px;
+      border-radius: 20px;
+      transition: all 0.3s ease;
+    }
+
+    .nav-links a:hover {
+      background-color: #fffefe;
+      color: #0a1f63;
+    }
+
+    #notifications {
+      height: calc(100vh - 60px);
+      background-color: #f5f5f5;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .notification-container {
+      flex: 1;
+      display: flex;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    .notification-sidebar {
+      width: 300px;
+      border-right: 1px solid #ccc;
+      padding: 10px;
+      background-color: #f8f8f8;
+      overflow-y: auto;
+    }
+
+    .notification-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      padding: 20px;
+      background-color: #fff;
+      overflow: hidden;
+    }
+
+    .notification-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px;
+      border-radius: 6px;
+      margin-bottom: 5px;
+      cursor: pointer;
+      background-color: #fff;
+    }
+
+    .notification-item:hover {
+      background-color: #ececec;
+    }
+
+    .notification-item.active {
+      background-color: #e8f0fe;
+    }
+
+    .notification-avatar {
+      width: 36px;
+      height: 36px;
+      background-color: #ccc;
+      border-radius: 50%;
+      margin-right: 8px;
+    }
+
+    .notification-info {
+      flex: 1;
+    }
+
+    .notification-type {
+      font-weight: bold;
+    }
+
+    .notification-message {
+      font-size: 12px;
+      color: #888;
+    }
+
+    .notification-time {
+      font-size: 12px;
+      color: #999;
+    }
+
+    .notification-filters {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .notification-filters button {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      font-size: 14px;
+      border-radius: 6px;
+      padding: 6px 12px;
+      cursor: pointer;
+    }
+
+    .notification-filters button:hover,
+    .notification-filters button.active {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <div class="navbar">
+    <div class="logo">BK<span>Docs</span></div>
+    <div class="nav-links">
+     <a href="Trangchu.html">Trang Chủ</a>
+    <a href="Search.html">Tìm kiếm</a>
+    <a href="Baiviet.html">Bài viết</a>
+    <a href="Thongbao.html">Thông báo</a>
+    <a href="Tinnhan.html">Tin nhắn</a>
+    <a href="Taikhoan.html">Tài khoản cá nhân</a>
+    <a href="Caidat.html">Cài đặt</a>
+    </div>
+  </div>
+
+  <div id="notifications">
+    <div class="notification-container">
+      <div class="notification-sidebar">
+        <div class="notification-filters">
+          <button class="active" onclick="filterNotifications('all')">Tất cả</button>
+          <button onclick="filterNotifications('unread')">Chưa đọc</button>
+        </div>
+        <div id="notificationList"></div>
+      </div>
+      <div class="notification-content">
+        <h2>Thông báo</h2>
+        <div id="notificationDetail"><p>Chọn thông báo bên trái để xem chi tiết...</p></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const notifications = [
+      { type: "bình luận mới", message: "Bạn có phản hồi mới từ một sinh viên về câu hỏi bạn đã đăng.", link: "#", read: false },
+      { type: "bài viết mới", message: "Một bài chia sẻ tài liệu mới đã được đăng trong môn Toán rời rạc.", link: "#", read: true },
+      { type: "thông báo hệ thống", message: "Chào mừng bạn đến với Diễn đàn hỏi đáp và chia sẻ tài liệu học tập.", link: "#", read: false },
+      { type: "thông báo hệ thống", message: "Chính sách sử dụng đã được cập nhật vào tuần này.", link: "#", read: true }
+    ];
+
+    function renderNotifications(filter = "all") {
+      const container = document.getElementById("notificationList");
+      container.innerHTML = "";
+      const filtered = filter === "unread" ? notifications.filter(n => !n.read) : notifications;
+
+      filtered.forEach(notif => {
+        const div = document.createElement("div");
+        div.className = "notification-item" + (notif.read ? "" : " active");
+        
+    div.onclick = () => {
+      document.querySelectorAll(".notification-item").forEach(el => el.classList.remove("active"));
+      div.classList.add("active");
+      document.getElementById("notificationDetail").innerHTML = `
+        <h3>${notif.type}</h3>
+        <p>${notif.message}</p>
+        <a href="${notif.link}" target="_blank">Đi tới nội dung liên quan</a>
+      `;
+    };
+    
+        div.innerHTML = `
+          <div class="notification-avatar"></div>
+          <div class="notification-info">
+            <div class="notification-type">${notif.type}</div>
+            <div class="notification-message">${notif.message}</div>
+          </div>
+          <div class="notification-time">${notif.read ? "" : "Mới"}</div>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    function filterNotifications(type) {
+      document.querySelectorAll(".notification-filters button").forEach(btn => btn.classList.remove("active"));
+      if (type === "unread") {
+        document.querySelectorAll(".notification-filters button")[1].classList.add("active");
+      } else {
+        document.querySelectorAll(".notification-filters button")[0].classList.add("active");
+      }
+      renderNotifications(type);
+    }
+
+    renderNotifications();
+  </script>
+</body>
+</html>

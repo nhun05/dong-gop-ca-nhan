@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BKDocs</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css">
+    <style>
+        /* Importing Google font */
+        @import url('https://fonts.googleapis.com/css2?family=Miniver&family=Poppins:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Poppins", sans-serif;
+        }
+
+        :root {
+            --while-color: #F4F4F4;
+            --dark-color: #15223f;
+            --primary-color: #dde0e0;
+            --secondary-color: #3f7bc9;
+            --light-pink-color: #821313;
+            --medium-gray-color: #ccc;
+
+            --font-size-s: 0.9rem;
+            --font-size-n: 1rem;
+            --font-size-m: 1.12rem;
+            --font-size-l: 1.5rem;
+            --font-size-xl: 2rem;
+            --font-size-xxl: 3.3rem;
+
+            --font-weight-normal: 400;
+            --font-weight-medium: 500;
+            --font-weight-semibold: 600;
+            --font-weight-bold: 700;
+
+            --boder-radius-s: 8px;
+            --boder-radius-m: 30px;
+            --boder-radius-circle: 50%;
+
+            --site-max-width: 1300px;
+        }
+
+        ul { list-style: none; }
+        a { text-decoration: none; }
+        button { cursor: pointer; border: none; background: none; }
+        img { max-width: 100%; max-height: 100%; object-fit: cover; }
+
+        .section-content {
+            margin: 0 auto;
+            padding: 0 20px;
+            max-width: var(--site-max-width);
+        }
+
+        .section-title {
+            text-align: center;
+            padding: 60px 0 100px;
+            text-transform: uppercase;
+            font-size: var(--font-size-xl);
+        }
+
+        .section-title::after {
+            content: "";
+            width: 80px;
+            height: 5px;
+            display: block;
+            margin: 10px auto 0;
+            border-radius: var(--boder-radius-s);
+            background: var(--secondary-color);
+        }
+
+        header {
+            position: fixed;
+            width: 100%;
+            z-index: 5;
+            background: var(--dark-color);
+        }
+
+        header .navbar {
+            display: flex;
+            padding: 20px;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .navbar .nav-logo .logo-text {
+            color: var(--while-color);
+            font-size: var(--font-size-xl);
+            font-weight: var(--font-weight-bold);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            background: linear-gradient(to right, #ffffff, #ffffff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .navbar .nav-menu {
+            display: flex;
+            gap: 10px;
+        }
+
+        .navbar .nav-menu .nav-link {
+            padding: 10px 18px;
+            color: var(--while-color);
+            font-size: var(--font-size-m);
+            border-radius: var(--boder-radius-m);
+            transition: 0.3s ease;
+        }
+
+        .navbar .nav-menu .nav-link:hover {
+            color: var(--secondary-color);
+            background: #fffefe;
+        }
+
+        .navbar :where(#menu-close-button, #menu-open-button) { display: none; }
+
+        .hero-section {
+            min-height: 100vh;
+            background: var(--primary-color);
+        }
+
+        .hero-section .section-content {
+            display: flex;
+            min-height: 100vh;
+            color: #0d0b30;
+            align-items: center;
+            justify-content: center;
+            padding: 60px;
+            gap: 40px;
+        }
+
+        .hero-section .hero-details {
+            flex: 1;
+        }
+
+        .hero-section .hero-details .title {
+            font-size: var(--font-size-xxl);
+            color: #960000;
+            font-family: "sans-serif";
+        }
+
+        .hero-section .hero-details .subtitle {
+            margin-top: 8px;
+            font-size: var(--font-size-xl);
+            font-weight: var(--font-weight-semibold);
+        }
+
+        .hero-section .hero-details .description {
+            max-width: 70%;
+            margin: 24px 0 40px;
+            font-size: var(--font-size-m);
+        }
+
+        .hero-section .hero-details .button,
+        .hero-section .hero-details .contact-us {
+            color: white;
+            background: #0d0b30;
+            border: 2px solid transparent;
+            padding: 10px 26px;
+            border-radius: var(--boder-radius-m);
+            font-weight: var(--font-weight-medium);
+            transition: 0.3s ease;
+        }
+
+        .hero-section .hero-details .button:hover,
+        .hero-section .hero-details .contact-us:hover {
+            color: #0d0b30;
+            background: white;
+            border: 2px solid #0d0b30;
+        }
+
+        .hero-section .hero-image-wrapper {
+            flex: 1;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+        }
+
+        .hero-section .hero-image {
+            width: 100%;
+            max-width: 1000px;
+            height: auto;
+            object-fit: contain;
+        }
+
+        .about-section {
+            padding: 120px 0;
+            background: var(--light-pink-color);
+            color: #ffffff;
+        }
+
+        .about-section .section-content {
+            display: flex;
+            gap: 50px;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .about-section .about-image-wrapper .about-image {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+        }
+
+        .about-section .details {
+            max-width: 50%;
+        }
+
+        .about-section .details .section-title {
+            padding: 0;
+            color: #ffffff;
+            margin-bottom: 15px;
+        }
+
+        .about-section .details .text {
+            line-height: 32px;
+            text-align: center;
+            font-size: 18px;
+            color: #f0f0f0;
+        }
+
+        .about-section .social-link {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 25px;
+            margin-top: 20px;
+        }
+
+        .menu-section {
+            color: #0d0b30;
+            background: #dde0e0;
+            padding: 50px 0 100px;
+        }
+
+        .menu-section .menu-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 110px;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .menu-section .menu-item {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            flex-direction: column;
+            justify-content: space-between;
+            width: calc(100% / 3 - 100px);
+        }
+
+        .menu-section .menu-item h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin: 16px 0 8px;
+            color: #0d0b30;
+        }
+
+        .menu-section .menu-item p {
+            font-size: 0,7rem;
+            font-weight: 400;
+            color: #444;
+            line-height: 1.5;
+        }
+
+        .menu-section .menu-image {
+            max-width: 70%;
+            aspect-ratio: 2 / 3;
+            object-fit: cover;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <!--Header / Navbar -->
+   <header>
+    <nav class="navbar section-content">
+        <a href="#" class="nav-logo">
+            <h2 class="logo-text">BKDocs</h2>
+        </a>
+        <ul class="nav-menu">
+            <button id="menu-close-button" class="fas fa-times"></button>
+
+            <li class="nav-item">
+                <a href="Trangchu.html" class="nav-link">Trang Chủ</a>
+            </li>
+            <li class="nav-item">
+                <a href="Search.html" class="nav-link">Tìm kiếm</a>
+            </li>
+            <li class="nav-item">
+                <a href="Baiviet.html" class="nav-link">Bài viết</a>
+            </li>
+            <li class="nav-item">
+                <a href="Thongbao.html" class="nav-link">Thông báo</a>
+            </li>
+            <li class="nav-item">
+                <a href="Tinnhan.html" class="nav-link">Tin nhắn</a>
+            </li>
+            <li class="nav-item">
+                <a href="Taikhoan.html" class="nav-link">Tài khoản cá nhân</a>
+            </li>
+            <li class="nav-item">
+                <a href="Caidat.html" class="nav-link">Cài đặt</a>
+            </li>
+        </ul>
+
+        <button id="menu-open-button" class="fas fa-bars"></button>
+    </nav>
+   </header>
+
+   <main>
+        <!-- Hero section -->
+<section class="hero-section">
+    <div class="section-content">
+        <div class="hero-details">
+            <h2 class="title">Tài liệu HUST</h2>
+            <h3 class="subtitle">Hỏi dễ-Chia nhanh-Học chất</h3>
+            <p class="description">
+                Nền tảng diễn đàn học tập nội bộ dành cho sinh viên Bách Khoa - nơi bạn có thể đặt câu hỏi, chia sẻ tài liệu, thảo luận kiến thức và hỗ trợ nhau học tốt hơn.
+            </p>
+            <div class="buttons">
+                <a href="Dangky.html" class="button order-now">Đăng ký</a>
+                <a href="#" class="button contact-us">Liên hệ với chúng tôi</a>
+            </div>                                      
+        </div>
+        <div class="hero-image-wrapper">
+            <img src="/images/BK.png" alt="hero" style="border: none;" class="hero-image">
+        </div>
+    </div>
+</section>
+
+    <!--About section -->
+    <section class="about-section">
+        <div class="section-content">
+            <div class="about-image-wrapper">
+                <img src="/images/SV5TT.png" alt="About" class="about-image">
+            </div>
+            <div class="details">
+                <h2 class="section-title">Giới thiệu</h2>
+                <p class="text">Chào mừng đến với BK Docs!  
+
+                Nơi chia sẻ kiến thức, hỗ trợ học tập và tạo dựng một cộng đồng học thuật chất lượng. 
+                <br>
+                <br> Với nguồn tài liệu phong phú, cập nhật liên tục và sự đóng góp từ các thành viên, chúng tôi mang đến cho bạn một không gian học tập hiệu quả, tích cực và truyền cảm hứng. 📚💡
+                <br>
+                <br>Mỗi tài liệu đều có thể mở ra một chân trời mới! Từ những bài giảng căn bản đến các cuộc thảo luận chuyên sâu, chúng tôi luôn sẵn sàng đồng hành cùng bạn trên hành trình chinh phục tri thức.
+                <br>
+                <br> Cảm ơn bạn đã tham gia!
+                <div class="social-link">
+                 <a href="#" class="social-link" style="color: #fdd835;"><i class="fa-brands fa-facebook"></i></a>
+                 <a href="#" class="social-link" style="color: #fdd835;"><i class="fa-brands fa-instagram"></i></a>
+                 <a href="#" class="social-link" style="color: #fdd835;"><i class="fa-brands fa-x-twitter"></i></a>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!--Menu section-->
+    <section class="menu-section">
+        <h2 class="section-title">Một số tài liệu</h2>
+        <div class="section content">
+            <ul class="menu-list">
+                <li class="menu-item">
+                    <img src="/images/XSTK.jpg" alt="Xác suất thống kê" class="menu-image">
+                    <h3 class="name">Xác suất thống kê</h3>
+                    <p class="">Trình bày các khái niệm cơ bản về xác suất và ứng dụng trong thống kê.</p>
+                </li>
+                <li class="menu-item">
+                    <img src="/images/ĐSTT.jpg" alt="Đại số tuyến tính" class="menu-image">
+                    <h3 class="name">Đại số tuyến tính</h3>
+                    <p class="">Cung cấp kiến thức về ma trận, định thức, hệ phương trình và không gian vector.</p>
+                </li>
+                <li class="menu-item">
+                    <img src="/images/GT1.jpg" alt="Giải tích 1" class="menu-image">
+                    <h3 class="name">Giải tích 1</h3>
+                    <p class="">Giới thiệu giới hạn, đạo hàm, tích phân và ứng dụng của hàm một biến.</p>
+                </li>
+                <li class="menu-item">
+                    <img src="/images/HÓA.jpg" alt="Hóa" class="menu-image">
+                    <h3 class="name">Hóa học</h3>
+                    <p class="">Nêu bật cấu trúc, tính chất và phản ứng của polyme cùng các khái niệm hóa lý liên quan.</p>
+                </li>
+                <li class="menu-item">
+                    <img src="/images/Thiết kế máy.jpg" alt="Thiết kế máy" class="menu-image">
+                    <h3 class="name">Thiết kế máy</h3>
+                    <p class="">Hướng dẫn nguyên lý và phương pháp thiết kế các bộ phận máy công cụ.</p>
+                </li>
+                <li class="menu-item">
+                    <img src="/images/Triết.jpg" alt="Triết học" class="menu-image">
+                    <h3 class="name">Triết học Mác-Lênin</h3>
+                    <p class="">Trình bày nền tảng tư tưởng Mác-Lênin và phương pháp luận biện chứng.</p>
+                </li>
+            </ul>
+        </div>
+    </section>
+</body>
+</html>

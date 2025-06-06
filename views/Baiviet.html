@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BKDocs - Chia sẻ bài viết</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f0f2f5;
+      color: #333;
+      padding: 30px 16px;
+    }
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      font-family: "Poppins", sans-serif;
+      background-color: #0a1f63;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 40px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      flex-wrap: wrap;
+      z-index: 999;
+    }
+    .logo {
+      font-size: 24px;
+      font-weight: bold;
+      color: white;
+    }
+    .logo span {
+      color: #c7ddf4;
+    }
+    .nav-links {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      padding: 8px 14px;
+      border-radius: 20px;
+      transition: all 0.3s ease;
+    }
+    .nav-links a:hover {
+      background-color: #fffefe;
+      color: #0a1f63;
+    }
+    .container {
+      max-width: 800px;
+      margin: 80px auto 0;
+    }
+    header {
+      background: linear-gradient(to right, #1a237e, #3949ab);
+      color: white;
+      padding: 24px;
+      border-radius: 16px;
+      text-align: center;
+      margin-bottom: 30px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    header h1 {
+      font-size: 26px;
+    }
+    .post-box {
+      background: white;
+      padding: 20px;
+      border-radius: 16px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+      margin-bottom: 30px;
+      transition: transform 0.2s ease;
+    }
+    .post-box:hover {
+      transform: scale(1.01);
+    }
+    textarea {
+      width: 100%;
+      border-radius: 10px;
+      border: 1.5px solid #ccc;
+      padding: 12px;
+      font-size: 14px;
+      margin-bottom: 12px;
+      transition: border-color 0.2s;
+    }
+    textarea:focus {
+      border-color: #3f51b5;
+      outline: none;
+    }
+    .actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    input[type="file"] {
+      font-size: 14px;
+    }
+    button {
+      background-color: #1a237e;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 10px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.2s;
+    }
+    button:hover {
+      background-color: #303f9f;
+      transform: scale(1.03);
+    }
+    .post {
+      background-color: white;
+      padding: 20px;
+      margin-bottom: 24px;
+      border-radius: 16px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      transition: box-shadow 0.3s ease;
+    }
+    .post:hover {
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+    .meta {
+      font-size: 13px;
+      color: #777;
+      margin-bottom: 8px;
+    }
+    .content {
+      font-size: 15px;
+      margin-bottom: 10px;
+      line-height: 1.6;
+    }
+    .post img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 10px;
+      margin-top: 10px;
+    }
+    .controls {
+      margin-top: 10px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .controls button {
+      background-color: #e8eaf6;
+      color: #1a237e;
+      font-weight: 500;
+    }
+    .controls button:hover {
+      background-color: #c5cae9;
+    }
+    .comment-box {
+      margin-top: 16px;
+    }
+    .comment-box input {
+      width: 100%;
+      padding: 10px 14px;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+    }
+    .comment-box input:focus {
+      border-color: #3f51b5;
+      outline: none;
+    }
+    .comment-list {
+      margin-top: 10px;
+    }
+    .comment {
+      padding: 8px 12px;
+      background: #f4f6fa;
+      border-radius: 10px;
+      margin-top: 6px;
+      font-size: 14px;
+    }
+    /* Spinner */
+    .spinner {
+      border: 4px solid #e0e0e0;
+      border-top: 4px solid #1a237e;
+      border-radius: 50%;
+      width: 32px;
+      height: 32px;
+      animation: spin 1s linear infinite;
+      margin: auto;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    /* Progress bar */
+#uploadProgress {
+  display: none;
+  margin-top: 12px;
+  background-color: #ddd;
+  border-radius: 10px;
+  height: 16px;
+  overflow: hidden;
+}
+
+#uploadProgress .bar {
+  height: 100%;
+  width: 0%;
+  background-color: #1a237e;
+  color: white;
+  text-align: center;
+  font-size: 12px;
+  line-height: 16px;
+  transition: width 0.3s ease;
+}
+  </style>
+</head>
+<body>
+<script>
+  const token = localStorage.getItem("token");
+  if (!token) {
+    alert("Bạn cần đăng nhập để sử dụng chức năng này!");
+    window.location.href = "Dangnhap.html";
+  }
+</script>
+  <div class="navbar">
+    <div class="logo">BK<span>Docs</span></div>
+    <div class="nav-links">
+      <a href="Trangchu.html">Trang Chủ</a>
+      <a href="Search.html">Tìm kiếm</a>
+      <a href="Baiviet.html">Bài viết</a>
+      <a href="#">Thông báo</a>
+      <a href="Tinnhan.html">Tin nhắn</a>
+      <a href="Taikhoan.html">Tài khoản cá nhân</a>
+      <a href="#">Cài đặt</a>
+    </div>
+  </div>
+
+  <div class="container">
+    <header>
+      <h1>📝 BKDocs - Bài viết cộng đồng</h1>
+    </header>
+
+    <section class="post-box">
+      <form id="postForm">
+        <textarea id="postText" placeholder="Bạn đang nghĩ gì?" rows="4"></textarea>
+        <div class="actions">
+          <input type="file" id="postFile" />
+          <button type="submit">Đăng bài</button>
+        </div>
+      </form>
+      <div id="uploadProgress">
+  <div class="bar" id="uploadBar">0%</div>
+</div>
+    </section>
+
+    <section id="postList"></section>
+  </div>
+
+  <script>
+// Chờ đến khi toàn bộ DOM được tải xong
+ document.addEventListener("DOMContentLoaded", async () => {
+    
+
+    // Lấy token xác thực và thông tin người dùng từ localStorage
+    const token = localStorage.getItem("token");
+    const currentUserData = localStorage.getItem("user");
+    const storedUser = currentUserData ? JSON.parse(currentUserData) : null;
+    
+    console.log("Tài khoản đang đăng nhập:", JSON.parse(localStorage.getItem("user")));
+
+     // Nếu chưa đăng nhập thì chuyển về trang đăng nhập
+    if (!token || !storedUser || !storedUser.name) {
+      alert("Bạn cần đăng nhập để tiếp tục.");
+      window.location.href = "Dangnhap.html";
+      return;
+    }
+
+    const currentUser = storedUser.name;
+
+
+    // Kiểm tra URL có chứa tham số ?post=... không (để hiển thị bài viết cụ thể)
+    const urlParams = new URLSearchParams(window.location.search);
+    const postId = urlParams.get("post");
+
+  if (postId) {
+    try {
+      const res = await fetch(`/posts/${postId}`, {
+        headers: { Authorization: "Bearer " + token },
+      });
+
+      if (res.status === 401) {
+        alert("Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.");
+        window.location.href = "Dangnhap.html";
+        return;
+      }
+
+      const data = await res.json();
+      
+
+      // xử lý URL có ?post=...
+      if (res.ok && data.post) {
+        renderPost(data.post, currentUser);
+      } else {
+        alert("Không tìm thấy bài viết.");
+      }
+    } catch (err) {
+      console.error("Lỗi khi tải bài viết:", err);
+      alert("Không thể kết nối tới máy chủ.");
+    }
+
+    return; // kết thúc ở đây nếu đã có postId
+  }
+
+
+
+    // Load và render các bài viết từ backend 
+    try {
+      const res = await fetch("/posts", {
+        headers: { Authorization: "Bearer " + token },
+      });
+
+      if (res.status === 401) {
+        alert("Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.");
+        window.location.href = "Dangnhap.html";
+        return;
+      }
+
+      const data = await res.json();
+
+      if (res.ok) {
+        data.posts
+          .sort((a, b) => new Date(b.thoi_gian_dang) - new Date(a.thoi_gian_dang))
+          .forEach(post => renderPost(post, currentUser));
+      } else {
+        alert("Không thể tải bài viết: " + data.message);
+      }
+    } catch (err) {
+      console.error("Lỗi khi tải bài viết:", err);
+      alert("Không thể kết nối tới máy chủ.");
+    }
+
+
+
+    // Gửi bài viết khi form được submit
+    document.getElementById("postForm").addEventListener("submit", async function (e) {
+      e.preventDefault();
+
+      const text = document.getElementById("postText").value.trim();
+      const fileInput = document.getElementById("postFile");
+      const file = fileInput.files[0];
+
+      if (!text && !file) {
+        alert("Vui lòng nhập nội dung hoặc chọn tệp.");
+        return;
+      }
+
+      const allowedTypes = ['image/png', 'image/jpeg', 'application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
+      if (file && !allowedTypes.includes(file.type)) {
+        alert("Chỉ hỗ trợ ảnh (.png, .jpg), PDF hoặc Word (.doc/.docx)!");
+        return;
+      }
+
+      if (file && file.size > 5 * 1024 * 1024) {
+        alert("Tệp quá lớn! Vui lòng chọn tệp nhỏ hơn 5MB.");
+        return;
+      }
+
+      const progressContainer = document.getElementById("uploadProgress");
+      const progressBar = document.getElementById("uploadBar");
+
+      progressContainer.style.display = "block";
+      progressBar.style.width = "0%";
+      progressBar.textContent = "0%";
+
+      let fakeProgress = 0;
+      const simulateProgress = setInterval(() => {
+        fakeProgress += Math.floor(Math.random() * 10) + 5;
+        if (fakeProgress >= 95) {
+          fakeProgress = 100;
+          clearInterval(simulateProgress);
+        }
+        progressBar.style.width = fakeProgress + "%";
+        progressBar.textContent = fakeProgress + "%";
+      }, 300);
+
+      const formData = new FormData();
+      formData.append("tieu_de", "Bài viết mới");
+      formData.append("noi_dung", text);
+      if (file) formData.append("file", file);
+
+      try {
+        const res = await fetch("/posts", {
+          method: "POST",
+          headers: { Authorization: "Bearer " + token },
+          body: formData,
+        });
+
+        if (res.status === 401) {
+          alert("Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.");
+          window.location.href = "Dangnhap.html";
+          return;
+        }
+
+        const result = await res.json();
+        if (res.ok) {
+          alert("Đăng bài thành công!");
+          window.location.reload();
+        } else {
+          alert("Đăng bài thất bại: " + result.message);
+        }
+      } catch (err) {
+        console.error("Lỗi khi gửi bài:", err);
+        alert("Không thể kết nối tới máy chủ.");
+      }
+    });
+
+    function getFileIcon(filename) {
+      if (!filename) return "📎";
+      const ext = filename.split('.').pop().toLowerCase();
+      switch (ext) {
+        case "pdf": return "📕";
+        case "doc":
+        case "docx": return "📄";
+        case "xls":
+        case "xlsx": return "📊";
+        case "ppt":
+        case "pptx": return "📽️";
+        case "png":
+        case "jpg":
+        case "jpeg":
+        case "gif": return "🖼️";
+        case "zip":
+        case "rar": return "🗜️";
+        case "txt": return "📃";
+        default: return "📎";
+      }
+    }
+    
+
+    // Hiển thị giao diện bài viết (Hiển thị bài viết)
+    function renderPost(post, currentUser) {
+      const postList = document.getElementById("postList");
+      const div = document.createElement("div");
+      div.className = "post";
+      div.id = post.bai_viet_id;
+
+      let ownerControls = "";
+      if (post.username === currentUser) {
+        ownerControls = `
+          <button class="edit" onclick="editPost('${post.bai_viet_id}')">Chỉnh sửa</button>
+          <button class="delete" onclick="deletePost('${post.bai_viet_id}')">Xóa</button>
+        `;
+      }
+
+      const timeStr = post.thoi_gian_dang
+        ? new Date(post.thoi_gian_dang).toLocaleString("vi-VN")
+        : "Không rõ thời gian";
+
+      div.innerHTML = `
+        <div class="meta"><strong>${post.username}</strong> • ${timeStr}</div>
+        <div class="content">${post.noi_dung || post.text}</div>
+        ${post.ten_tai_lieu && post.duong_dan ? `
+          <p>
+            <a href="#" onclick="downloadFile('${post.bai_viet_id}', '${post.ten_tai_lieu}', '${post.duong_dan}')">
+              ${getFileIcon(post.ten_tai_lieu)} ${post.ten_tai_lieu}
+            </a>
+            <span style="margin-left: 8px; color: gray;">
+              (${post.so_luot_tai || 0} lượt tải)
+            </span>
+          </p>
+        ` : post.tep_dinh_kem ? `
+          <p>
+            <a href="${post.tep_dinh_kem}" download>
+              ${getFileIcon(post.ten_file_goc)} ${post.ten_file_goc || 'Tệp đính kèm'}
+            </a>
+          </p>
+        ` : ""}
+        ${ownerControls}
+        <button onclick="savePost('${post.bai_viet_id}')">Lưu trữ</button>
+        <button onclick="ratePost('${post.bai_viet_id}', 'like')">👍 Hữu ích</button>
+        <button onclick="ratePost('${post.bai_viet_id}', 'dislike')">👎 Không hữu ích</button>
+        <div class="comment-box">
+          <input type="text" placeholder="Viết bình luận..." onkeydown="handleComment(event, '${post.bai_viet_id}')">
+          <div class="comment-list" id="comments-${post.bai_viet_id}"></div>
+        </div>
+      `;
+      postList.append(div);
+      loadComments(post.bai_viet_id);
+    }
+  });
+
+
+  // Hiển thị bình luận
+  async function loadComments(postId) {
+    const token = localStorage.getItem("token");
+    const res = await fetch(`/posts/${postId}/comments`, {
+      headers: { Authorization: "Bearer " + token },
+    });
+
+    if (res.status === 401) {
+      alert("Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.");
+      window.location.href = "Dangnhap.html";
+      return;
+    }
+
+    const data = await res.json();
+    const commentList = document.getElementById(`comments-${postId}`);
+    commentList.innerHTML = "";
+
+    data.comments.forEach(comment => {
+      const div = document.createElement("div");
+      div.className = "comment";
+      div.textContent = `${comment.username}: ${comment.noi_dung}`;
+      commentList.appendChild(div);
+    });
+  }
+
+
+
+  // Xóa bài viết
+  async function deletePost(postId) {
+  if (!confirm("Bạn có chắc muốn xóa bài viết này?")) return;
+
+  try {
+    const res = await fetch(`/posts/${postId}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+    });
+
+    const result = await res.json();
+    if (res.ok) {
+      document.getElementById(postId)?.remove();
+      alert("Đã xóa bài viết.");
+    } else {
+      alert("Xóa thất bại: " + result.message);
+    }
+  } catch (err) {
+    console.error("Lỗi khi xóa bài:", err);
+    alert("Không thể kết nối tới máy chủ.");
+  }
+}
+
+
+
+  // Chỉnh sửa bài viết
+  function editPost(postId) {
+  const postEl = document.getElementById(postId);
+  const content = postEl.querySelector(".content").textContent;
+  const newContent = prompt("Chỉnh sửa nội dung bài viết:", content);
+
+  if (newContent !== null && newContent.trim() !== "") {
+    fetch(`/posts/${postId}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+      body: JSON.stringify({ noi_dung: newContent }),
+    })
+      .then(res => res.json().then(data => ({ ok: res.ok, data })))
+      .then(({ ok, data }) => {
+        if (ok) {
+          postEl.querySelector(".content").textContent = newContent;
+          alert("Cập nhật thành công.");
+        } else {
+          alert("Cập nhật thất bại: " + data.message);
+        }
+      })
+      .catch(err => {
+        console.error("Lỗi khi cập nhật:", err);
+        alert("Không thể kết nối tới máy chủ.");
+      });
+  }
+}
+
+
+
+  // Lưu bài viết
+  function savePost(postId) {
+    alert("Bài viết đã được lưu vào mục lưu trữ! (chức năng đang phát triển)");
+  }
+
+  async function ratePost(postId, type) {
+    try {
+      const res = await fetch(`/posts/${postId}/rate`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+        body: JSON.stringify({ loai: type }),
+      });
+
+      if (res.status === 401) {
+        alert("Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.");
+        window.location.href = "Dangnhap.html";
+        return;
+      }
+
+      const result = await res.json();
+      if (res.ok) {
+        alert(result.message || "Đánh giá đã được ghi nhận!");
+      } else {
+        alert("Gửi đánh giá thất bại: " + result.message);
+      }
+    } catch (err) {
+      console.error("Lỗi khi gửi đánh giá:", err);
+      alert("Không thể gửi đánh giá.");
+    }
+  }
+  
+
+
+  // Bình luận
+  async function handleComment(event, postId) {
+    if (event.key === "Enter") {
+      const input = event.target;
+      const noi_dung = input.value.trim();
+      if (!noi_dung) return;
+
+      const res = await fetch(`/posts/${postId}/comments`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+        body: JSON.stringify({ noi_dung }),
+      });
+
+      if (res.status === 401) {
+        alert("Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.");
+        window.location.href = "Dangnhap.html";
+        return;
+      }
+
+      if (res.ok) {
+        input.value = "";
+        await loadComments(postId);
+      } else {
+        alert("Gửi bình luận thất bại!");
+      }
+    }
+  }
+
+  // tải tài liệu đính kèm 
+  function downloadFile(baiVietId, tenTaiLieu, duongDan) {
+    const token = localStorage.getItem("token");
+
+    fetch("/posts/download-log", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      },
+      body: JSON.stringify({ bai_viet_id: baiVietId, ten_tai_lieu: tenTaiLieu, duong_dan: duongDan }),
+    })
+      .then(res => {
+        if (res.status === 401) {
+          alert("Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.");
+          window.location.href = "Dangnhap.html";
+          return;
+        }
+        if (!res.ok) throw new Error("Ghi nhận tải thất bại");
+        window.open(duongDan, "_blank");
+      })
+      .catch(err => {
+        console.error("Lỗi khi tải file:", err);
+        alert("Không thể ghi nhận lượt tải hoặc mở file.");
+      });
+  }
+</script>
+

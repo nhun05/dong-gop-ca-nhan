@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Giao diện Tin nhắn</title>
+  <style>
+    /* Nội dung từ Tinnhan.css */
+    * { box-sizing: border-box; font-family: Arial, sans-serif; }
+    body { margin: 0; padding: 0; background: #f0f2f5; }
+    .navbar {
+      font-family: "Poppins", sans-serif;
+      background-color: #0a1f63;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 40px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      flex-wrap: wrap;
+    }
+    .logo { font-size: 24px; font-weight: bold; color: white; }
+    .logo span { color: #c7ddf4; }
+    .nav-links { display: flex; gap: 24px; flex-wrap: wrap; }
+    .nav-links a {
+      color: white; text-decoration: none; font-weight: bold;
+      padding: 8px 14px; border-radius: 20px;
+      transition: all 0.3s ease;
+    }
+    .nav-links a:hover { background-color: #fffefe; color: #0a1f63; }
+
+    .section { display: none; background: white; padding: 15px; border-radius: 8px; box-shadow: 0 0 5px rgba(0,0,0,0.1); }
+    .active { display: block; }
+    .chat-container { display: flex; height: 80vh; background-color: #f5f5f5; }
+    .chat-sidebar {
+      width: 300px; border-right: 1px solid #ccc; padding: 10px;
+      background-color: #f5f5f5; height: 100%; overflow-y: auto;
+    }
+    .chat-list { overflow-y: auto; max-height: calc(100vh - 60px); }
+    .chat-item {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 8px; border-radius: 6px; margin-bottom: 5px; cursor: pointer;
+      background-color: #fff;
+    }
+    .chat-item.active { background-color: #e8f0fe; }
+    .chat-item:hover { background-color: #ececec; }
+    .avatar {
+      width: 36px; height: 36px; background-color: #ccc;
+      border-radius: 50%; margin-right: 8px;
+    }
+    .info { flex: 1; }
+    .name { font-weight: bold; }
+    .status, .time { font-size: 12px; color: #888; }
+    .chat-content {
+      flex: 1; display: flex; flex-direction: column; padding: 20px;
+      background-color: #f5f5f5; height: 100%; overflow: hidden;
+    }
+    .messages { flex: 1; overflow-y: auto; }
+    .message { margin-bottom: 10px; display: flex; flex-direction: column; }
+    .bubble {
+      max-width: 60%; padding: 10px; border-radius: 10px;
+      font-size: 14px; line-height: 1.4;
+    }
+    .other .bubble { background-color: #eee; align-self: flex-start; }
+    .self .bubble { background-color: #d4f7c5; align-self: flex-end; }
+    .status-msg {
+      font-size: 12px; color: #888; margin-top: 2px; align-self: flex-end;
+    }
+    .input-box {
+      display: flex; padding: 10px; border-top: 1px solid #ccc;
+    }
+    .input-box input {
+      flex: 1; padding: 8px; border: 1px solid #ccc; border-radius: 4px;
+    }
+    .input-box button {
+      padding: 8px 12px; margin-left: 10px; background-color: #007bff;
+      border: none; color: white; border-radius: 4px; cursor: pointer;
+    }
+    .input-box button:hover { background-color: #0056b3; }
+    .plus-button {
+      background-color: #007bff; color: white; border: none; font-size: 20px;
+      cursor: pointer; border-radius: 6px; padding: 0 16px; height: 100%;
+    }
+    .plus-button:hover { background-color: #0056b3; }
+    .modal {
+      display: none; position: fixed; top: 15%; left: 50%;
+      transform: translateX(-50%); background: #fff; padding: 24px;
+      border-radius: 12px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+      z-index: 1000; width: 360px;
+    }
+    .modal-title { margin-top: 0; margin-bottom: 20px; font-size: 20px; font-weight: bold; }
+    .modal-label { font-weight: 500; display: block; margin-bottom: 8px; }
+    .modal-input, .modal-select, .modal-textarea {
+      width: 100%; padding: 10px; margin-bottom: 16px;
+      border: 1px solid #ccc; border-radius: 6px; font-size: 14px;
+    }
+    .modal-textarea { resize: vertical; min-height: 80px; }
+    .modal-buttons { display: flex; justify-content: flex-end; gap: 10px; }
+    .modal-button { padding: 8px 16px; font-size: 14px; border-radius: 6px; cursor: pointer; border: none; }
+    .modal-button.confirm { background-color: #007bff; color: white; }
+    .modal-button.cancel { background-color: #e0e0e0; color: #333; }
+  </style>
+</head>
+<body>
+  <div class="navbar">
+    <div class="logo">BK<span>Docs</span></div>
+    <div class="nav-links">
+      <a href="Trangchu.html">Trang Chủ</a>
+      <a href="Search.html">Tìm kiếm</a>
+      <a href="Baiviet.html">Bài viết</a>
+      <a href="Thongbao.html">Thông báo</a>
+      <a href="Tinnhan.html">Tin nhắn</a>
+      <a href="Taikhoan.html">Tài khoản cá nhân</a>
+      <a href="Caidat.html">Cài đặt</a>
+    </div>
+  </div>
+
+  <div id="messages" class="section active">
+    <div class="chat-container">
+      <div class="chat-sidebar">
+        <div style="display: flex; margin-bottom: 10px; gap: 8px;">
+          <input type="text" id="searchInput" placeholder="Tìm kiếm" oninput="filterChatList()" style="flex: 1;">
+          <button class="plus-button" onclick="openNewChatModal()">+</button>
+        </div>
+        <div class="chat-list" id="chatList">
+          <div class="chat-item active" onclick="loadChat('Shizuka 🥺')">
+            <div class="avatar"></div>
+            <div class="info">
+              <div class="name">Shizuka 🥺</div>
+              <div class="status">Tin nhắn mới</div>
+            </div>
+            <div class="time">4 phút</div>
+          </div>
+          <div class="chat-item" onclick="loadChat('Nhóm 7')">
+            <div class="avatar"></div>
+            <div class="info">
+              <div class="name">Nhóm 7</div>
+              <div class="status">Đã đọc</div>
+            </div>
+            <div class="time">20 giờ</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="chat-content">
+        <div id="groupControls" style="display: none; margin-bottom: 10px;">
+          <button onclick="toggleAddMember()">+ Thêm thành viên</button>
+          <div id="addMemberForm" style="margin-top: 10px; display: none;">
+            <input type="text" id="searchUser" placeholder="Tìm người trong danh sách chat..." oninput="filterUsers()" />
+            <div id="userResults" style="max-height: 150px; overflow-y: auto; margin-top: 8px;"></div>
+            <button onclick="confirmAdd()">Thêm</button>
+          </div>
+          <div id="memberList" style="margin-top: 10px; font-size: 14px; color: #555;"></div>
+        </div>
+
+        <div class="messages" id="chatBox"></div>
+        <div class="input-box">
+          <input type="text" placeholder="Nhập tin nhắn..." id="msgInput" onkeypress="handleKeyPress(event)">
+          <button onclick="sendMsg()">Gửi</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="newChatModal" class="modal">
+    <h2 class="modal-title">Tạo cuộc trò chuyện</h2>
+    <label for="chatType" class="modal-label">Loại:</label>
+    <select id="chatType" onchange="toggleMemberInput()" class="modal-select">
+      <option value="personal">Tin nhắn cá nhân</option>
+      <option value="group">Nhóm</option>
+    </select>
+    <input type="text" id="newChatName" placeholder="Tên cuộc trò chuyện" class="modal-input">
+    <div id="memberSection" style="display: none;">
+      <textarea id="newChatMembers" placeholder="Nhập tên thành viên, cách nhau bởi dấu phẩy" class="modal-textarea"></textarea>
+    </div>
+    <div class="modal-buttons">
+      <button onclick="createNewChat()" class="modal-button confirm">Tạo</button>
+      <button onclick="closeNewChatModal()" class="modal-button cancel">Hủy</button>
+    </div>
+  </div>
+
+  <script>
+    // Nội dung từ Tinnhan.js
+    let chats = {
+      "Shizuka 🥺": {
+        messages: [
+          { text: "Hi", from: "other", time: "4 phút" },
+          { text: "Em ăn cơm chưa", from: "other", time: "4 phút" },
+          { text: "Rồi anh ạ", from: "self", time: "3 phút" },
+          { text: "Anh cũng ăn rồi", from: "self", time: "3 phút" },
+        ],
+        members: ["Shizuka 🥺"]
+      },
+      "Nhóm 7": {
+        messages: [
+          { text: "Các bạn làm đến đâu rồi", from: "other", time: "20 giờ" },
+          { text: "Tớ đang làm phần giao diện", from: "self", time: "19 giờ" },
+        ],
+        members: ["Bạn A", "Bạn B", "Bạn C"]
+      }
+    };
+
+    let currentChat = "Shizuka 🥺";
+
+    function showSection(sectionId) {
+      document.querySelectorAll(".section").forEach(sec => sec.classList.remove("active"));
+      document.getElementById(sectionId).classList.add("active");
+    }
+
+    function loadChat(name) {
+      currentChat = name;
+      document.querySelectorAll(".chat-item").forEach(el => el.classList.remove("active"));
+      [...document.querySelectorAll(".chat-item")].find(item => item.innerText.includes(name)).classList.add("active");
+
+      const chat = chats[name];
+      const chatBox = document.getElementById("chatBox");
+      chatBox.innerHTML = "";
+
+      chat.messages.forEach(msg => {
+        const msgDiv = document.createElement("div");
+        msgDiv.className = "message " + msg.from;
+        msgDiv.innerHTML = `<div class="bubble">${msg.text}</div><div class="status-msg">${msg.time}</div>`;
+        chatBox.appendChild(msgDiv);
+      });
+
+      const groupControls = document.getElementById("groupControls");
+      const memberList = document.getElementById("memberList");
+      if (chat.members.length > 1) {
+        groupControls.style.display = "block";
+        memberList.innerText = "Thành viên: " + chat.members.join(", ");
+      } else {
+        groupControls.style.display = "none";
+      }
+
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    function handleKeyPress(e) {
+      if (e.key === "Enter") sendMsg();
+    }
+
+    function sendMsg() {
+      const input = document.getElementById("msgInput");
+      const msg = input.value.trim();
+      if (!msg) return;
+
+      chats[currentChat].messages.push({ text: msg, from: "self", time: "vừa xong" });
+      input.value = "";
+      loadChat(currentChat);
+    }
+
+    function toggleAddMember() {
+      const form = document.getElementById("addMemberForm");
+      form.style.display = form.style.display === "none" ? "block" : "none";
+    }
+
+    function filterUsers() {
+      const keyword = document.getElementById("searchUser").value.toLowerCase();
+      const results = document.getElementById("userResults");
+      results.innerHTML = "";
+
+      const availableUsers = Object.keys(chats).filter(u => u !== currentChat && !chats[currentChat].members.includes(u));
+      availableUsers.forEach(u => {
+        if (u.toLowerCase().includes(keyword)) {
+          const div = document.createElement("div");
+          div.textContent = u;
+          div.onclick = () => div.classList.toggle("selected");
+          div.style.cursor = "pointer";
+          div.style.padding = "5px";
+          div.style.borderBottom = "1px solid #ccc";
+          results.appendChild(div);
+        }
+      });
+    }
+
+    function confirmAdd() {
+      const selected = [...document.querySelectorAll("#userResults .selected")].map(el => el.textContent);
+      if (selected.length) {
+        chats[currentChat].members.push(...selected);
+        document.getElementById("addMemberForm").style.display = "none";
+        loadChat(currentChat);
+      }
+    }
+
+    function openNewChatModal() {
+      document.getElementById("newChatModal").style.display = "block";
+      document.getElementById("newChatName").value = "";
+      document.getElementById("newChatMembers").value = "";
+      document.getElementById("chatType").value = "personal";
+      toggleMemberInput();
+    }
+
+    function closeNewChatModal() {
+      document.getElementById("newChatModal").style.display = "none";
+    }
+
+    function toggleMemberInput() {
+      const type = document.getElementById("chatType").value;
+      document.getElementById("memberSection").style.display = type === "group" ? "block" : "none";
+    }
+
+    function createNewChat() {
+      const name = document.getElementById("newChatName").value.trim();
+      const type = document.getElementById("chatType").value;
+      const membersRaw = document.getElementById("newChatMembers").value.trim();
+
+      if (!name) return alert("Vui lòng nhập tên cuộc trò chuyện");
+      if (chats[name]) return alert("Tên cuộc trò chuyện đã tồn tại");
+
+      const members = type === "group" ? membersRaw.split(",").map(m => m.trim()).filter(Boolean) : [];
+
+      chats[name] = {
+        messages: [],
+        members: type === "group" ? members : [name]
+      };
+
+      const chatList = document.getElementById("chatList");
+      const chatItem = document.createElement("div");
+      chatItem.className = "chat-item";
+      chatItem.onclick = () => loadChat(name);
+      chatItem.innerHTML = `
+        <div class="avatar"></div>
+        <div class="info">
+          <div class="name">${name}</div>
+          <div class="status">Mới</div>
+        </div>
+        <div class="time">bây giờ</div>
+      `;
+      chatList.appendChild(chatItem);
+
+      closeNewChatModal();
+      loadChat(name);
+    }
+
+    function filterChatList() {
+      const keyword = document.getElementById("searchInput").value.toLowerCase();
+      const items = document.querySelectorAll(".chat-item");
+      items.forEach(item => {
+        const name = item.querySelector(".name").textContent.toLowerCase();
+        item.style.display = name.includes(keyword) ? "flex" : "none";
+      });
+    }
+
+    window.onload = () => {
+      showSection('messages');
+      loadChat(currentChat);
+    };
+  </script>
+</body>
+</html>

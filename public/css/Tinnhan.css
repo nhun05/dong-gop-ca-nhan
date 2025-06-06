@@ -1,0 +1,389 @@
+* { box-sizing: border-box; font-family: Arial, sans-serif; }
+body { margin: 0; padding: 0; background: #f0f2f5; }
+
+/* Navbar styling */
+.navbar {
+  font-family: "Poppins", sans-serif;
+  background-color: #0a1f63;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 40px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  flex-wrap: wrap;
+}
+
+.logo {
+  font-size: 24px;
+  font-weight: bold;
+  color: white;
+}
+
+.logo span {
+  color: #c7ddf4;
+}
+
+.nav-links {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.nav-links a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  padding: 8px 14px;
+  border-radius: 20px;
+  transition: all 0.3s ease;
+}
+
+.nav-links a:hover {
+  background-color: #fffefe;
+  color: #0a1f63;
+}
+/* Phần tìm kiếm */
+.search-section {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 20px;
+  justify-content: center;
+  background-color: #1845ad;
+}
+
+.container {
+  padding: 20px;
+}
+
+.section {
+  display: none;
+  background: white;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 0 5px rgba(0,0,0,0.1);
+}
+
+.active { display: block; }
+
+.chat-container {
+  display: flex;
+  height: 80vh;
+}
+
+.chat-sidebar {
+  width: 300px;
+  border-right: 1px solid #ccc;
+  padding: 10px;
+  background-color: #f8f8f8;
+}
+
+.chat-sidebar input {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.chat-list {
+  overflow-y: auto;
+  max-height: calc(100vh - 60px);
+}
+
+.chat-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px;
+  border-radius: 6px;
+  margin-bottom: 5px;
+  cursor: pointer;
+  background-color: #fff;
+}
+
+.chat-item.active {
+  background-color: #e8f0fe;
+}
+
+.chat-item:hover {
+  background-color: #ececec;
+}
+
+.avatar {
+  width: 36px;
+  height: 36px;
+  background-color: #ccc;
+  border-radius: 50%;
+  margin-right: 8px;
+}
+
+.info {
+  flex: 1;
+}
+
+.name {
+  font-weight: bold;
+}
+
+.status {
+  font-size: 12px;
+  color: #888;
+}
+
+.time {
+  font-size: 12px;
+  color: #999;
+}
+
+.chat-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  background-color: #fff;
+}
+
+.messages {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.message {
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.bubble {
+  max-width: 60%;
+  padding: 10px;
+  border-radius: 10px;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.other .bubble {
+  background-color: #eee;
+  align-self: flex-start;
+}
+
+.self .bubble {
+  background-color: #d4f7c5;
+  align-self: flex-end;
+}
+
+.status-msg {
+  font-size: 12px;
+  color: #888;
+  margin-top: 2px;
+  align-self: flex-end;
+}
+
+.input-box {
+  display: flex;
+  padding: 10px;
+  border-top: 1px solid #ccc;
+}
+
+.input-box input {
+  flex: 1;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.input-box button {
+  padding: 8px 12px;
+  margin-left: 10px;
+  background-color: #007bff;
+  border: none;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.input-box button:hover {
+  background-color: #0056b3;
+}
+
+#messageTab {
+  position: relative;
+  color: white;
+  font-weight: bold;
+  text-decoration: none;
+  padding: 6px 12px;
+  border-radius: 20px;
+  transition: all 0.3s ease;
+}
+
+#messageTab:hover {
+  background-color: white;
+  color: #0a1e63;
+}
+
+#messageTab .badge {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  background-color: red;
+  color: white;
+  font-size: 10px;
+  padding: 2px 6px;
+  border-radius: 50%;
+  font-weight: bold;
+  line-height: 1;
+}
+
+.plus-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  border-radius: 6px;
+  padding: 0 16px;
+  height: 100%;
+}
+
+.plus-button:hover {
+  background-color: #0056b3;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+#messages {
+  height: calc(100vh - 60px); /* 60px là chiều cao navbar */
+  background-color: #f5f5f5; /* XÁM KEM */
+  display: flex;
+  flex-direction: column;
+}
+
+.chat-container {
+  flex: 1;
+  display: flex;
+  height: 100%;
+  overflow: hidden;
+}
+
+.chat-sidebar {
+  height: 100%;
+  overflow-y: auto;
+}
+
+.chat-content {
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.messages {
+  flex: 1;
+  overflow-y: auto;
+}
+
+/* Đặt màu nền xám kem cho toàn bộ nội dung dưới navbar */
+.chat-container {
+  flex: 1;
+  display: flex;
+  height: 100%;
+  background-color: #f5f5f5; /* XÁM KEM */
+}
+
+/* Nền cho sidebar và nội dung chat */
+.chat-sidebar,
+.chat-content {
+  background-color: #f5f5f5; /* XÁM KEM */
+}
+
+/* Đảm bảo không bị scroll xấu ở toàn trang */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+/* Modal container */
+.modal {
+  display: none;
+  position: fixed;
+  top: 15%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #fff;
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  width: 360px;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* Modal title */
+.modal-title {
+  margin-top: 0;
+  margin-bottom: 20px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+/* Labels */
+.modal-label {
+  font-weight: 500;
+  display: block;
+  margin-bottom: 8px;
+}
+
+/* Input, Select, Textarea */
+.modal-input,
+.modal-select,
+.modal-textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 16px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+.modal-textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+/* Buttons */
+.modal-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.modal-button {
+  padding: 8px 16px;
+  font-size: 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  border: none;
+}
+
+.modal-button.confirm {
+  background-color: #007bff;
+  color: white;
+}
+
+.modal-button.cancel {
+  background-color: #e0e0e0;
+  color: #333;
+}
+
+
+
+

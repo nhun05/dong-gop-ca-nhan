@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <title>Đăng ký - BKDocs</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: url('/images/nen.png') no-repeat center center fixed;
+      background-size: cover;
+      font-family: 'Arial', sans-serif;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(255, 255, 255, 0.147);
+      z-index: -1;
+    }
+
+    .container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      padding: 20px;
+    }
+
+    .form-box {
+      background: rgba(255, 255, 255, 0.521);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      border-radius: 20px;
+      padding: 40px 50px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+      max-width: 420px;
+      width: 100%;
+      color: #000;
+      transition: all 0.3s ease;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+
+    label {
+      margin-top: 12px;
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    input {
+      padding: 10px;
+      margin-top: 6px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 12px;
+      background-color: #000;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #333;
+    }
+
+    p {
+      margin-top: 20px;
+      text-align: center;
+      font-size: 14px;
+    }
+
+    a {
+      color: #551A8B;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="form-box">
+      <h2>Tạo tài khoản mới</h2>
+      <form id="registerForm">
+ 
+        <label for="name">Tên</label>
+        <input type="text" id="name" required />
+
+        <label for="email">Email</label>
+        <input type="email" id="email" required />
+
+        <label for="password">Mật khẩu</label>
+        <input type="password" id="password" required />
+
+        <label for="dob">Ngày sinh</label>
+        <input type="date" id="dob" required />
+
+        <button type="submit">Đăng ký</button>
+      </form>
+      <p>Đã có tài khoản? <a href="Dangnhap.html">Đăng nhập</a></p>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById("registerForm").addEventListener("submit", async function (e) {
+      e.preventDefault();
+
+      const name = document.getElementById("name").value;
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+      const dob = document.getElementById("dob").value;
+
+      try {
+        const response = await fetch("http://localhost:3000/auth/register", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ name, email, password, dob })
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+          // Lưu thông tin cơ bản vào localStorage (không lưu mật khẩu)
+          localStorage.setItem("user", JSON.stringify({ name, email, dob }));
+
+          alert("Đăng ký thành công!");
+          window.location.href = "Dangnhap.html";
+        } else {
+          alert("Lỗi: " + result.message);
+        }
+      } catch (error) {
+        console.error("Lỗi khi gửi dữ liệu:", error);
+        alert("Đã xảy ra lỗi khi đăng ký.");
+      }
+    });
+  </script>
+</body>
+</html>
+

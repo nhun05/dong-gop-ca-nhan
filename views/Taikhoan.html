@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>Tài khoản cá nhân</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f2f2f2;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .profile-box {
+      background-color: white;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      width: 350px;
+      text-align: center;
+    }
+
+    .profile-box h1 {
+      margin-bottom: 20px;
+      color: #1a237e;
+    }
+
+    .profile-info p {
+      font-size: 16px;
+      margin: 10px 0;
+      color: #333;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: #1a237e;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    button:hover {
+      background-color: #3949ab;
+    }
+
+    .secondary-button {
+      background-color: #9e9e9e;
+      margin-top: 10px;
+    }
+
+    .secondary-button:hover {
+      background-color: #757575;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="profile-box">
+      <h1>Tài khoản cá nhân</h1>
+      <div class="profile-info">
+        <p><strong>Họ và tên:</strong> <span id="userName">--</span></p>
+        <p><strong>Email:</strong> <span id="userEmail">--</span></p>
+        <p><strong>Thông tin người dùng </strong> <span id="registerDate">--</span></p>
+      </div>
+      <button onclick="logout()">Đăng xuất</button>
+      <br/>
+      <button class="secondary-button" onclick="goHome()">Quay lại trang chủ</button>
+    </div>
+  </div>
+
+  <script>
+    async function loadUserInfo() {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        alert("Bạn cần đăng nhập để xem thông tin tài khoản.");
+        window.location.href = "Dangnhap.html";
+        return;
+      }
+
+      try {
+        const res = await fetch("/api/user", {
+          method: "GET",
+          headers: {
+            "Authorization": "Bearer " + token
+          }
+        });
+
+        const data = await res.json();
+
+        if (res.ok) {
+          document.getElementById("userName").textContent = data.name || "Không rõ";
+          document.getElementById("userEmail").textContent = data.email || "Không rõ";
+          document.getElementById("registerDate").textContent = data.registerDate || "Không rõ";
+        } else {
+          alert("Không thể xác thực người dùng. Vui lòng đăng nhập lại.");
+          window.location.href = "Dangnhap.html";
+        }
+      } catch (error) {
+        console.error(error);
+        alert("Lỗi khi tải thông tin người dùng.");
+      }
+    }
+
+    function logout() {
+      localStorage.removeItem("token");
+      window.location.href = "Dangnhap.html";
+    }
+
+    function goHome() {
+      window.location.href = "Trangchu.html"; // hoặc index.html tùy dự án của bạn
+    }
+
+    window.onload = loadUserInfo;
+  </script>
+</body>
+</html>

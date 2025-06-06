@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+
+<html lang="vi">
+<head>
+<meta charset="utf-8"/>
+<title>Thư viện học tập</title>
+<style>
+    /* Thiết lập cơ bản */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #1845ad;
+      color: #333;
+    }
+
+    /* Navbar styling */
+    .navbar {
+      font-family: "Poppins", sans-serif;
+      background-color: #0a1f63;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 40px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      flex-wrap: wrap;
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: bold;
+      color: white;
+    }
+
+    .logo span {
+      color: #c7ddf4;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      padding: 8px 14px;
+      border-radius: 20px;
+      transition: all 0.3s ease;
+    }
+
+    .nav-links a:hover {
+      background-color: #fffefe;
+      color: #0a1f63;
+    }
+
+    /* Phần tìm kiếm */
+    .search-section {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 20px;
+      justify-content: center;
+      background-color: #1845ad;
+    }
+
+    /* Ô nhập liệu và dropdown */
+    .search-input, .dropdown {
+      padding: 10px 14px;
+      border-radius: 8px;
+      border: none;
+      font-size: 14px;
+      min-width: 180px;
+      box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    }
+
+    .dropdown {
+      appearance: none;
+      background-color: #fff;
+    }
+
+    /* Nút tìm kiếm */
+    .search-logo {
+      background-color: #ff5c42;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .search-logo:hover {
+      background-color: #e04a33;
+    }
+
+    /* Câu hỏi nổi bật */
+    .highlighted-questions {
+      width: 80%;
+      margin: 30px auto;
+      background-color: #f9f9f9;
+      border-left: 5px solid #555;
+      padding: 15px;
+      border-radius: 5px;
+    }
+
+    .highlighted-questions h3 {
+      margin-bottom: 15px;
+      color: #333;
+    }
+
+    .question-thread {
+      background: #fff;
+      border: 1px solid #ddd;
+      padding: 10px 15px;
+      margin-bottom: 10px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    .question-thread:hover {
+      background-color: #f1f1f1;
+    }
+
+    .question-thread .title {
+      color: #5e2ca5;
+      text-decoration: underline;
+      font-weight: bold;
+    }
+
+    .user {
+      font-weight: bold;
+      color: #4a148c;
+    }
+
+    /* Tài liệu mới nhất */
+    .latest-documents {
+      width: 80%;
+      margin: 30px auto;
+      background-color: #f2f2f2;
+      border-left: 5px solid #444;
+      padding: 15px;
+      border-radius: 5px;
+    }
+
+    .latest-documents h3 {
+      margin-bottom: 15px;
+      color: #333;
+    }
+
+    .document-item {
+      background: #fff;
+      padding: 10px 15px;
+      border: 1px solid #ccc;
+      margin-bottom: 10px;
+      border-radius: 5px;
+    }
+
+    .document-item p {
+      margin: 5px 0;
+      display: flex;
+      align-items: center;
+    }
+
+    /* Icon tài liệu */
+    .doc-icon {
+      width: 24px;
+      height: 24px;
+      margin-right: 10px;
+    }
+  </style>
+</head>
+<body>
+<!--Header / Navbar -->
+<div class="navbar">
+<div class="logo">BK<span>Docs</span></div>
+<div class="nav-links">
+<a href="Trangchu.html">Trang Chủ</a>
+<a href="Search.html">Tìm kiếm</a>
+<a href="Baiviet.html">Bài viết</a>
+<a href="Thongbao.html">Thông báo</a>
+<a href="Tinnhan.html">Tin nhắn</a>
+<a href="Taikhoan.html">Tài khoản cá nhân</a>
+<a href="Caidat.html">Cài đặt</a>
+</div>
+</div>
+<!-- Phần tìm kiếm -->
+<div class="search-section">
+<input class="search-input" placeholder="Nhập từ khóa tìm kiếm..." type="text"/>
+<select class="dropdown">
+<option disabled="" hidden="" selected="">Môn học...</option>
+<option>Toán rời rạc</option>
+<option>Lập trình C</option>
+<option>Kinh tế</option>
+</select>
+<select class="dropdown">
+<option disabled="" hidden="" selected="">Loại tài liệu...</option>
+<option>PDF</option>
+<option>DOCX</option>
+<option>Slide</option>
+</select>
+<button class="search-logo">Tìm kiếm</button>
+</div>
+<!-- Câu hỏi nổi bật -->
+<div class="highlighted-questions">
+<h3>Câu hỏi nổi bật hôm nay</h3>
+<div class="question-thread" data-post="post_1">
+<p>
+<strong>[Toán rời rạc]</strong>
+<span class="title">Làm sao giải bài tập vẽ biểu đồ Hasse?</span><br/>
+      → <strong>12 câu trả lời</strong> |
+      <span class="user">👤 user123</span>
+</p>
+</div>
+<div class="question-thread" data-post="post_3">
+<p>
+<strong>[Lập trình C]</strong>
+<span class="title">Ai có slide bài con trỏ không?</span><br/>
+      → <strong>5 câu trả lời</strong> |
+      <span class="user">👤 coderABC</span> |
+      📎 Tài liệu: 1 PDF
+    </p>
+</div>
+</div>
+<!-- Tài liệu mới nhất -->
+<div class="latest-documents">
+<h3>Tài liệu mới nhất</h3>
+<div class="document-item">
+<p>
+<img alt="PDF" class="doc-icon" src="/images/pdf1.png"/>
+<strong>Slide OOP - Java cơ bản (PDF)</strong>
+</p>
+<p>📅 Ngày đăng: 10/05/2025 - 09:30</p>
+</div>
+<div class="document-item">
+<p>
+<img alt="DOCX" class="doc-icon" src="/images/W.png"/>
+<strong>Đề cương Kinh tế lượng (DOCX)</strong>
+</p>
+<p>📅 Ngày đăng: 09/05/2025 - 18:15</p>
+</div>
+</div>
+<!-- Script xử lý click -->
+
+<script>
+  const token = localStorage.getItem("token");
+  if (!token) {
+    alert("Bạn cần đăng nhập để sử dụng chức năng tìm kiếm!");
+    window.location.href = "Dangnhap.html";
+  }
+
+  document.querySelector(".search-logo").addEventListener("click", async () => {
+    const keyword = document.querySelector(".search-input").value;
+
+    try {
+      const res = await fetch("/posts/search", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer " + token
+        },
+        body: JSON.stringify({ keyword })
+      });
+
+      const data = await res.json();
+
+      const resultsContainer = document.querySelector(".latest-documents");
+      resultsContainer.innerHTML = "<h3>Kết quả tìm kiếm</h3>";
+
+      if (res.ok && data.length > 0) {
+        data.forEach(bai => {
+          const item = document.createElement("div");
+          item.classList.add("document-item");
+          item.style.cursor = "pointer";
+          item.addEventListener("click", () => {
+            window.location.href = `Baiviet.html?post=${bai.bai_viet_id}`;
+          });
+
+          item.innerHTML = `
+            <p><strong>${bai.tieu_de}</strong></p>
+            <p>${bai.noi_dung.substring(0, 100)}...</p>
+            <p>📅 Ngày đăng: ${new Date(bai.thoi_gian_dang).toLocaleString()}</p>
+          `;
+          resultsContainer.appendChild(item);
+        });
+      } else {
+        resultsContainer.innerHTML += "<p>Không tìm thấy kết quả nào.</p>";
+      }
+    } catch (err) {
+      console.error("Lỗi tìm kiếm:", err);
+      alert("Lỗi kết nối tới máy chủ.");
+    }
+  });
+</script>
+
+</body>
+</html>
