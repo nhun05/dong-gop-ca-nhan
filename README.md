@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # studyforum
 A study forum website using Node.js, ExpressJS, EJS and MySQL created as final project for the subject "Web Design and Programming" at Hanoi University of Science and Technology.
 
@@ -54,3 +55,6 @@ npm run dev
 | 3   | Frontend ↔ Backend ↔ Database hoạt động trơn tru.             |1     | Hoàn thành      |
 | 4   | Ít lỗi, có từ 2+ chức năng chính và có thể sử dụng.           |1     | Hoàn thành      |
 | 5   | Thực hiện được các thao tác: tạo, đọc, cập nhật, xóa dữ liệu  |1     | Hoàn thành      |
+=======
+# dong-gop-ca-nhan
+>>>>>>> c28c2ad327c14301e9d7da284f1aff58ec21a56d
