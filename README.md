@@ -31,13 +31,13 @@ Execute these queries in MySQL
 ```
 CREATE USER 'root'@'localhost' IDENTIFIED BY '@Nhungvu123';
 GRANT ALL PRIVILEGES ON *.* TO 'root'@'localhost';
-CREATE DATABASE web;
-USE web;
+CREATE DATABASE project;
+USE project;
 ```
 
 Now run the file `project.sql` in MySQL
 
-```mysql -u root -p web < project.sql```
+```mysql -u root -p project < project.sql```
 
 
 ## Compiles and hot-reloads for development
